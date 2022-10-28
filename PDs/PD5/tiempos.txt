@@ -1,0 +1,5 @@
+np,TIPO,tiempo
+2,MPI,
+4,MPI,
+8,MPI,
+16,MPI,
