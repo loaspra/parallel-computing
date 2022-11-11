@@ -45,16 +45,25 @@ int main ( int argc, char *argv[] )
   }
 
   local_sum = 0.0;
-  // printf("p: %d goes from %d to %d\n", world_rank, world_rank * n/world_size, (world_rank + 1) * n/world_size);
+
   for(i = world_rank * n/world_size; i < (world_rank + 1) * n/world_size; i++)
   {
     x = ( ( n - i - 1 ) * a + ( i ) * b ) / ( n - 1 );
     local_sum = local_sum + f(x);
   }
+
+  // handle the rest 
+  if(world_rank == 0)
+    for (i = (world_size - 1) * n/world_size; i < n; i++)
+    {
+      x = ( ( n - i - 1 ) * a + ( i ) * b ) / ( n - 1 );
+      local_sum = local_sum + f(x);
+    }
+  
+  
   MPI_Barrier(MPI_COMM_WORLD);
-  // printf("p: %d suma local: %f \n", world_rank, local_sum);
   MPI_Reduce(&local_sum, &global_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-  // printf("P: %d End reduce\n", world_rank);
+
   if(world_rank == 0)
   {
     wtime2 = MPI_Wtime();
