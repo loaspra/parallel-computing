@@ -35,6 +35,7 @@ int main()
                     segmentos[0] = b;
                     segmentos[1] = a - b;
                     segmentos[2] = 1 - a;
+                    printf("segmentos: a: %f | b: %f | c: %f\n", segmentos[0], segmentos[1], segmentos[2]);
                     if(b <= ((a - b) + (1 - a)) && (a - b) <= (b + 1 - a) && (1 - a) <= (a - b + 1 - a))
                     {    
                         is_triangle++;
